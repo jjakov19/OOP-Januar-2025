@@ -24,7 +24,7 @@ public:
 	void Ispisi(ostream& os) {
 		for (int i = 0; i < brRedova; i++) {
 			for (int j = 0; j < brKol; j++) {
-				os << matrica[i][j] << " ";
+				os << matrica[i][j];
 			}
 			os << endl;
 		}
@@ -33,7 +33,7 @@ public:
 	ostream& Print(ostream& os) {
 		for (int i = 0; i < brRedova; i++) {
 			for (int j = 0; j < brKol; j++) {
-				os << matrica[i][j] << " ";
+				os << matrica[i][j];
 			}
 			os << endl;
 		}
@@ -86,7 +86,7 @@ Plaza<T>::Plaza(const Plaza& p){
 template <typename T>
 Plaza<T>::~Plaza() {
 	for (int i = 0; i < brRedova; i++) {
-		delete matrica[i];
+		delete[] matrica[i];
 	}
 	delete[]matrica;
 }
@@ -189,7 +189,6 @@ int Plaza<Lezaljka>::RedSaNajvise(int& brlez) {
 	}
 	return maxRed;
 }
-
 template <typename T>
 void Plaza<T>::Sacuvaj(const char* fajl) {
 	ofstream file(fajl);
@@ -197,31 +196,56 @@ void Plaza<T>::Sacuvaj(const char* fajl) {
 		throw runtime_error("Lose ucitan file!");
 		return;
 	}
+	file << brRedova << endl;
+	file << brKol << endl;
 	for (int i = 0; i < brRedova; i++) {
 		for (int j = 0; j < brKol; j++) {
-			file << matrica[i][j]<<" ";
+			file << matrica[i][j] << " ";
 		}
 		file << endl;
 	}
 	file.close();
 }
+
 template <typename T>
 void Plaza<T>::Ucitaj(const char* fajl) {
-	ifstream file(fajl);
+	std::ifstream file(fajl);
 	if (!file.is_open()) {
-		throw runtime_error("Lose ucitan file!");
-		return;
+		throw std::runtime_error("Lose ucitan file!");
 	}
-	T pom;
-	for (int i = 0; i < brRedova; i++) {
-		for (int j = 0; j < brKol; j++) {
-			file >> pom;
-			
-			if(file.fail()) {
-				break;
+
+	int red = 0, kol = 0;
+	file >> red >> kol;
+	if (!file) {
+		throw std::runtime_error("Greska pri citanju dimenzija iz fajla");
+	}
+
+	// Oslobodi staru matricu ako postoji
+	if (matrica != nullptr) {
+		for (int i = 0; i < brRedova; ++i) delete[] matrica[i];
+		delete[] matrica;
+		matrica = nullptr;
+	}
+
+	// Postavimo clanove klase
+	brRedova = red;
+	brKol = kol;
+	trbr = 0; // mozemo kasnije izracunati ako zelimo
+
+	// Alokacija nove matrice
+	matrica = new T * [brRedova];
+	for (int i = 0; i < brRedova; ++i) {
+		matrica[i] = new T[brKol];
+		for (int j = 0; j < brKol; ++j) {
+			if (!(file >> matrica[i][j])) {
+				// cleanup u slucaju greske
+				for (int k = 0; k <= i; ++k) delete[] matrica[k];
+				delete[] matrica;
+				matrica = nullptr;
+				throw std::runtime_error("Greska pri citanju sadrzaja fajla");
 			}
-			matrica[i][j] = pom;
 		}
 	}
+
 	file.close();
 }

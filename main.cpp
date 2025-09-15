@@ -4,10 +4,11 @@
 #include"Lezaljka.h"
 #include "Plaza.h"
 #include <iostream>
+#include <stdexcept>
 using namespace std;
 
 
-void zadatak1() {
+/*void zadatak1() {
 	// 2 poena
 	int pL[] = { 12, 1, 40, 20 };
 	ParLezaljki* p1 = new ParLezaljki(pL[0], pL[1], pL[2], pL[3]);
@@ -55,7 +56,7 @@ void zadatak1() {
 	pLezMaxNapitak->Prikazi();
 	// 1 poena
 	delete pKSP;
-}
+}*/
 void zadatak2()
 {
 	int brRedova = 4, brKolona = 8;
