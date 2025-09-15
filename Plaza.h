@@ -209,15 +209,15 @@ void Plaza<T>::Sacuvaj(const char* fajl) {
 
 template <typename T>
 void Plaza<T>::Ucitaj(const char* fajl) {
-	std::ifstream file(fajl);
+	ifstream file(fajl);
 	if (!file.is_open()) {
-		throw std::runtime_error("Lose ucitan file!");
+		throw runtime_error("Lose ucitan file!");
 	}
 
 	int red = 0, kol = 0;
 	file >> red >> kol;
 	if (!file) {
-		throw std::runtime_error("Greska pri citanju dimenzija iz fajla");
+		throw runtime_error("Greska pri citanju dimenzija iz fajla");
 	}
 
 	// Oslobodi staru matricu ako postoji
@@ -242,7 +242,7 @@ void Plaza<T>::Ucitaj(const char* fajl) {
 				for (int k = 0; k <= i; ++k) delete[] matrica[k];
 				delete[] matrica;
 				matrica = nullptr;
-				throw std::runtime_error("Greska pri citanju sadrzaja fajla");
+				throw runtime_error("Greska pri citanju sadrzaja fajla");
 			}
 		}
 	}
