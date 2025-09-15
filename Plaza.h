@@ -237,13 +237,7 @@ void Plaza<T>::Ucitaj(const char* fajl) {
 	for (int i = 0; i < brRedova; ++i) {
 		matrica[i] = new T[brKol];
 		for (int j = 0; j < brKol; ++j) {
-			if (!(file >> matrica[i][j])) {
-				// cleanup u slucaju greske
-				for (int k = 0; k <= i; ++k) delete[] matrica[k];
-				delete[] matrica;
-				matrica = nullptr;
-				throw runtime_error("Greska pri citanju sadrzaja fajla");
-			}
+			file >> matrica[i][j];
 		}
 	}
 
