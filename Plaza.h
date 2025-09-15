@@ -220,19 +220,17 @@ void Plaza<T>::Ucitaj(const char* fajl) {
 		throw runtime_error("Greska pri citanju dimenzija iz fajla");
 	}
 
-	// Oslobodi staru matricu ako postoji
+
 	if (matrica != nullptr) {
 		for (int i = 0; i < brRedova; ++i) delete[] matrica[i];
 		delete[] matrica;
 		matrica = nullptr;
 	}
 
-	// Postavimo clanove klase
+
 	brRedova = red;
 	brKol = kol;
-	trbr = 0; // mozemo kasnije izracunati ako zelimo
 
-	// Alokacija nove matrice
 	matrica = new T * [brRedova];
 	for (int i = 0; i < brRedova; ++i) {
 		matrica[i] = new T[brKol];
@@ -240,6 +238,5 @@ void Plaza<T>::Ucitaj(const char* fajl) {
 			file >> matrica[i][j];
 		}
 	}
-
 	file.close();
 }
