@@ -140,6 +140,10 @@
     <ClInclude Include="ParLezaljkiSaDodatkom.h" />
     <ClInclude Include="Plaza.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="PlazaVal.txt" />
+    <Text Include="PlazaVal1.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -62,7 +62,7 @@ void zadatak2()
 	int brojPodataka = 7;
 	// 3 boda
 	// postavljanje i prihvatanje izuzetaka
-	{
+	try{
 		int red[] = { 1, 1, 2, 2, 3, 3, 3 };
 		int kolona[] = { 2, 5, 1, 6, 3, 5, 7 };
 		int lez[] = { 2, 3, 2, 2, 4, 3, 2 };
@@ -93,7 +93,10 @@ void zadatak2()
 		plazaUcitana.Ucitaj(fajl);
 		cout << plazaUcitana << endl; //plazaUcitana.Ispisi(cout);
 	}
-	{
+	catch (const runtime_error& k) {
+		cout << "Greska:" << k.what() << endl;
+	}
+	try{
 		int red[] = { 1, 1, 2, 2, 3, 3, 3 };
 		int kolona[] = { 2, 5, 1, 6, 3, 5, 7 };
 		int lez[] = { 2, 3, 2, 2, 4, 3, 2 };
@@ -120,18 +123,21 @@ void zadatak2()
 		int redNaj = plaza.RedSaNajvise(brojLez);
 		cout << redNaj << " " << brojLez << endl;
 		// 0 bod
-		char fajl[] = "PlazaVal.txt";
+		char fajl[] = "PlazaVal1.txt";
 		plaza.Sacuvaj(fajl);
 		// 1 bod
 		Plaza<Lezaljka> plazaUcitana;
 		plazaUcitana.Ucitaj(fajl);
 		cout << plazaUcitana << endl; //novValUc.Ispisi(cout);
 	}
+	catch (const runtime_error& b) {
+		cout << "Greska:" << b.what() << endl;
+	}
 }
 
 int main()
 {
-	zadatak1();
+	//zadatak1();
 	zadatak2();
 	return 0;
 }

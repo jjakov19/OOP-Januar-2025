@@ -41,7 +41,7 @@ public:
 	}
 	float Ukupno();
 	int BrojMesta(int brlez);
-	int RedSaNajvise(int brlez);
+	int RedSaNajvise(int& brlez);
 	void Sacuvaj(const char* fajl);
 	void Ucitaj(const char* fajl);
 };
@@ -96,7 +96,7 @@ void Plaza<T>::Dodaj(int rd, int kl, T lez) {
 		throw runtime_error("Uneli ste nepostojecu poziciju!");
 		return;
 	}
-	matrica[rd][kl] = lez;
+	matrica[rd-1][kl-1] = lez;
 }
 template <typename T>
 void Plaza<T>::Oslobodi(int rd, int kl) {
@@ -104,7 +104,7 @@ void Plaza<T>::Oslobodi(int rd, int kl) {
 		throw runtime_error("Uneli ste nepostojecu poziciju!");
 		return;
 	}
-	matrica[rd][kl] = T();
+	matrica[rd-1][kl-1] = T();
 }
 
 template <typename T>
@@ -133,7 +133,7 @@ int Plaza<T>::BrojMesta(int brlez) {
 	for (int i = 0; i < brRedova; i++) {
 		for (int j = 0; j < brKol; j++) {
 			if(matrica[i][j]==brlez)
-			uk += matrica[i][j];
+			uk++;
 		}
 	}
 	return uk;
@@ -144,13 +144,13 @@ int Plaza<Lezaljka>::BrojMesta(int brlez) {
 	for (int i = 0; i < brRedova; i++) {
 		for (int j = 0; j < brKol; j++) {
 			if (matrica[i][j].getBrIzn() == brlez)
-				uk += matrica[i][j].getBrIzn();
+				uk ++;
 		}
 	}
 	return uk;
 }
 template <typename T>
-int Plaza<T>::RedSaNajvise(int brlez) {
+int Plaza<T>::RedSaNajvise(int& brlez) {
 	int maxRed = 0;
 	int maxRedSuma =0;
 	int trRedSuma = 0;
@@ -164,10 +164,13 @@ int Plaza<T>::RedSaNajvise(int brlez) {
 		}
 		trRedSuma = 0;
 	}
+	for (int i = 0; i < brKol; i++) {
+		brlez += matrica[maxRed][i];
+	}
 	return maxRed;
 }
 template <>
-int Plaza<Lezaljka>::RedSaNajvise(int brlez) {
+int Plaza<Lezaljka>::RedSaNajvise(int& brlez) {
 	int maxRed = 0;
 	int maxRedSuma = 0;
 	int trRedSuma = 0;
@@ -181,32 +184,44 @@ int Plaza<Lezaljka>::RedSaNajvise(int brlez) {
 		}
 		trRedSuma = 0;
 	}
+	for (int i = 0; i < brKol; i++) {
+		brlez += matrica[maxRed][i].getBrIzn();
+	}
 	return maxRed;
 }
 
 template <typename T>
 void Plaza<T>::Sacuvaj(const char* fajl) {
 	ofstream file(fajl);
-	if (!file.good()) {
+	if (!file.is_open()) {
 		throw runtime_error("Lose ucitan file!");
 		return;
 	}
 	for (int i = 0; i < brRedova; i++) {
 		for (int j = 0; j < brKol; j++) {
-			file << matrica[i][j];
+			file << matrica[i][j]<<" ";
 		}
+		file << endl;
 	}
+	file.close();
 }
 template <typename T>
 void Plaza<T>::Ucitaj(const char* fajl) {
 	ifstream file(fajl);
-	if (!file.good()) {
+	if (!file.is_open()) {
 		throw runtime_error("Lose ucitan file!");
 		return;
 	}
+	T pom;
 	for (int i = 0; i < brRedova; i++) {
 		for (int j = 0; j < brKol; j++) {
-			file >> matrica[i][j];
+			file >> pom;
+			
+			if(file.fail()) {
+				break;
+			}
+			matrica[i][j] = pom;
 		}
 	}
+	file.close();
 }

@@ -13,7 +13,7 @@ public:
 	int getBrIzn()const { return brIznajmljenih; }
 	int getCenaPica()const { return cenaPica; }
 	friend ostream& operator <<(ostream& os, Lezaljka& l) {
-		os << l.brIznajmljenih << " " << l.cenaPica << " " << endl;
+		os << l.brIznajmljenih << " " << l.cenaPica<< " ";
 		return os;
 	}
 	friend istream& operator>>(istream& is, Lezaljka& l) {
